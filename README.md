@@ -51,6 +51,11 @@ chmod u+x install_pullpush.sh
 ```
 This script return array for config. You need to copy it and paste to /var/www/bx-site/bitrix/.settings.php
 
+and restart apache2
+```
+systemctl restart apache2
+```
+
 
 ## Check ports
 ss -tuln | grep -E ':22|:80|:443|:8890|:8891|:8893|:8894|:5222|:5223'
