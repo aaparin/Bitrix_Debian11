@@ -13,5 +13,35 @@ git clone https://github.com/aaparin/Bitrix_Debian11.git
 chmod u+x install.sh
 ./install.sh
 
+## After installation
+
+Root directory: /var/www/bx-site
+
+Database settings:
+```
+table name: sitemanager
+user: bitrix
+password: 'your password when you wrote it during installation'
+host: localhost
+port: 3306
+```    
+If you want to install new Bitrix24 Business trial, you can run install_bx24.sh script
+```
+chmod u+x install_bx24.sh
+./install_bx24.sh
+```
+
+### SMTP server setup:
+
+Go to /etc/msmtprc and set your SMTP server settings
+
+Now I use example for Gmail. You can use your own SMTP server settings.
+
+### Letsencrypt setup:
+
+Start letsencrypt.sh script
+```
+
+
 ## Check ports
 ss -tuln | grep -E ':22|:80|:443|:8890|:8891|:8893|:8894|:5222|:5223'

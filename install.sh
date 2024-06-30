@@ -94,12 +94,12 @@ else
     echo "PHP 8.3 is not installed"
     exit
 fi
-rsync -av config/php/ /etc/php/8.3/
+rsync -av config/php.d/ /etc/php/8.3/
 
 #Configure apache
 
 echo "Configuring Apache..."
-rsync -av config/apache/ /etc/apache2/
+rsync -av config/apache2/ /etc/apache2/
 a2dismod --force autoindex
 a2enmod rewrite
 systemctl --now enable apache2
@@ -177,10 +177,21 @@ systemctl daemon-reload
 
 systemctl --now enable push-server
 
-# install portal
-echo "Installing Bitrix24..."
-cd /var/www/html/bx-site
-wget https://www.bitrixsoft.com/download/portal/en_bitrix24_encode.zip
-unzip en_bitrix24_encode.zip -d /var/www/html/bx-site
-rm en_bitrix24_encode.zip
-chown -R www-data:www-data /var/www/html/bx-site
+# Make mysql user
+echo "Creating MySQL user..."
+SQL_COMMAND="
+create database sitemanager;
+CREATE USER 'bitrix'@'localhost' IDENTIFIED BY '"${mysql_user_password}"';
+GRANT ALL PRIVILEGES ON sitemanager.* to 'bitrix'@'localhost';"
+
+mysql -u root -p"${mysql_root_password}" -e "${SQL_COMMAND}"
+
+#Email configuration
+echo "Configuring email..."
+sudo apt install msmtp msmtp-mta -y
+cp config/msmtprc /etc/msmtprc
+sudo chown root:root /etc/msmtprc
+sudo chmod 600 /etc/msmtprc
+
+
+
