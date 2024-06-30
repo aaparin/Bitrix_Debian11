@@ -21,7 +21,7 @@ fi
 
 # Paths to configuration files
 template_conf="config/nginx_config.conf"
-nginx_conf="/etc/nginx/sites-available/$domain"
+nginx_conf="/etc/nginx/sites-available/$domain.conf"
 
 # Check if the Nginx configuration for the domain exists
 if [ ! -f "$nginx_conf" ]; then
@@ -38,4 +38,7 @@ fi
 
 echo 'Creating SSL certificate...'
 # Obtain an SSL certificate for the domain and www.domain
-certbot --nginx -d $domain -d www.$domain
+certbot --nginx -d $domain
+
+# add certificate renewal to crontab (every day at midnight)
+(crontab -l 2>/dev/null; echo "0 0 * * * /usr/bin/certbot renew --quiet") | crontab -
