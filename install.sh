@@ -193,5 +193,13 @@ cp config/msmtprc /etc/msmtprc
 sudo chown root:root /etc/msmtprc
 sudo chmod 600 /etc/msmtprc
 
+# Add cron task
+echo "Adding cron task..."
+# Add cron job for bitrix user to run cron_events.php every minute
+cron_command="* * * * * /var/www/bx-site/bitrix/modules/main/tools/cron_events.php"
+
+# Check if the cron job already exists
+(crontab -u bitrix -l 2>/dev/null | grep -qF "$cron_command") || (crontab -u bitrix -l 2>/dev/null; echo "$cron_command") | crontab -u bitrix -
+
 
 
