@@ -39,8 +39,17 @@ Now I use example for Gmail. You can use your own SMTP server settings.
 
 ### Letsencrypt setup:
 
-Start letsencrypt.sh script
 ```
+chmod u+x install_ssl.sh
+./install_ssl.sh
+```
+
+### Configure pull push
+```
+chmod u+x install_pullpush.sh
+./install_pullpush.sh
+```
+This script return array for config. You need to copy it and paste to /var/www/bx-site/bitrix/.settings.php
 
 
 ## Check ports
